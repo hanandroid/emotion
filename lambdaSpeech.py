@@ -3,6 +3,7 @@
 '''
 import requests
 import json
+import os
 
 
 # IBM Cloud Service用
@@ -102,3 +103,22 @@ class IBM_Serice:
 
     def getResult(self):
         return self.result
+
+    def getPoem(self, delight, anger, sorrow, pleasure):
+        # emotional poem endpoint
+        url = "https://rapidapi.p.rapidapi.com/app/api/getPoem"
+
+        # convert emotion anger, fear, joy, and sadness
+        querystring = {"delight":delight,"anger":anger,"sorrow":sorrow,"pleasure":pleasure,"type":"max","method":"cos"}
+
+        headers = {
+            'x-rapidapi-host': "emotional-poem.p.rapidapi.com",
+            'x-rapidapi-key': os.environ['EMOTIONAL_POEM_RAPIDAPI_KEY']
+            }
+
+        response = requests.request("GET", url, headers=headers, params=querystring)
+
+        # return result of poem JSON
+        data = response.json()
+        return data
+
